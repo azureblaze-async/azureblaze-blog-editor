@@ -2,8 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { PageHeader, StatusBadge, btn } from "@/components/admin-ui";
 import { adminCounts, adminListPosts, formatDate } from "@/lib/posts";
+import { studioHead } from "@/lib/studio-head";
 
 export const Route = createFileRoute("/admin/")({
+  head: () => studioHead("Overview — AzureBlaze Studio", "Private publishing overview and recently updated AzureBlaze articles."),
   component: Dashboard,
 });
 

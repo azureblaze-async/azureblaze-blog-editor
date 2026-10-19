@@ -9,7 +9,7 @@ same database — it lives in its own repository and is not part of this project
 - Markdown editor with **write / split / preview** modes and a formatting toolbar
 - **Draft → published → archived** lifecycle; publishing is validated (excerpt, category,
   body and a publish date are required) both in the UI and by a database constraint
-- Cover image and social-share image upload to Supabase Storage (`azureblaze-media` bucket)
+- Cover and inline image uploads to Cloudflare R2; existing Supabase Storage images remain supported
 - Slug generation with a uniqueness check before saving
 - Per-article SEO title and description
 - Dashboard with post counts, plus a posts list with status filters and search
@@ -20,6 +20,10 @@ same database — it lives in its own repository and is not part of this project
 
 React 19 · TanStack Start v1 (Vite 7) · TypeScript · Tailwind CSS v4 · shadcn/ui ·
 Supabase (Postgres, Auth, Storage) · Vitest
+
+## R2 image setup
+
+Follow [docs/R2-SETUP.md](docs/R2-SETUP.md) for R2 credentials, public URLs, bucket CORS and Vercel environment variables. New uploads require this setup; existing images are not migrated or deleted.
 
 ## Getting started
 

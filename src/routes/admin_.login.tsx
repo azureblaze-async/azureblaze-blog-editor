@@ -16,6 +16,8 @@ export const Route = createFileRoute("/admin_/login")({
       { name: "description", content: "Private sign-in for the AzureBlaze publishing studio." },
       { property: "og:title", content: "Sign in — AzureBlaze Studio" },
       { property: "og:description", content: "Private sign-in for the AzureBlaze publishing studio." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { name: "robots", content: "noindex" },
     ],
   }),

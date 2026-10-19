@@ -1,8 +1,10 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { PostEditor } from "@/components/PostEditor";
 import { adminGetPost } from "@/lib/posts";
+import { studioHead } from "@/lib/studio-head";
 
 export const Route = createFileRoute("/admin/posts/$id/edit")({
+  head: () => studioHead("Edit article — AzureBlaze Studio", "Edit and preview an existing AzureBlaze article."),
   validateSearch: (s: Record<string, unknown>): { preview?: boolean } => (s["preview"] === true || s["preview"] === "true" ? { preview: true } : {}),
   loader: async ({ params }) => {
     const post = await adminGetPost(params.id);

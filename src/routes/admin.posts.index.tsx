@@ -8,8 +8,10 @@ import {
 } from "@/components/ui/alert-dialog";
 import { PageHeader, StatusBadge, btn, fieldCls } from "@/components/admin-ui";
 import { adminListPosts, deletePost, formatDate, publishPost, setStatus, type Post, type PostStatus } from "@/lib/posts";
+import { studioHead } from "@/lib/studio-head";
 
 export const Route = createFileRoute("/admin/posts/")({
+  head: () => studioHead("Posts — AzureBlaze Studio", "Manage drafts, published posts and archived AzureBlaze articles."),
   component: PostsList,
 });
 

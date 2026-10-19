@@ -1,4 +1,7 @@
 import { MEDIA_BUCKET, requireSupabase, supabase } from "./supabase";
+import { completeImageUpload, prepareImageUpload } from "./media.functions";
+import { validateImage } from "./media";
+export { MAX_UPLOAD_MB } from "./media";
 
 export type PostStatus = "draft" | "published" | "archived";
 
@@ -225,16 +228,14 @@ export async function deletePost(id: string): Promise<void> {
   if (error) throw friendly(error);
 }
 
-const ALLOWED = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/avif"];
-export const MAX_UPLOAD_MB = 5;
-
 export async function uploadImage(file: File, folder: "covers" | "inline"): Promise<string> {
-  const sb = requireSupabase();
-  if (!ALLOWED.includes(file.type)) throw new Error("Unsupported image type. Use JPG, PNG, WEBP, GIF or AVIF.");
-  if (file.size > MAX_UPLOAD_MB * 1024 * 1024) throw new Error(`Image must be under ${MAX_UPLOAD_MB} MB.`);
-  const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
-  const path = `${folder}/${crypto.randomUUID()}.${ext}`;
-  const { error } = await sb.storage.from(MEDIA_BUCKET).upload(path, file, { contentType: file.type, upsert: false });
-  if (error) throw new Error(`Upload failed: ${error.message}`);
-  return path;
+  validateImage(file.type, file.size);
+  const { key, uploadUrl } = await prepareImageUpload({ data: { type: file.type, size: file.size, folder } });
+  const response = await fetch(uploadUrl, { method: "PUT", headers: { "Content-Type": file.type }, body: file });
+  if (!response.ok) {
+    const detail = await response.text();
+    throw new Error(`R2 upload failed (${response.status}): ${detail}. Check bucket credentials and CORS settings.`);
+  }
+  const { publicUrl } = await completeImageUpload({ data: { key, type: file.type, size: file.size } });
+  return publicUrl;
 }
