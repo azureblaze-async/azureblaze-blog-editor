@@ -14,7 +14,7 @@ export function ArticleView({ post, preview = false }: { post: Pick<Post, "title
     }
   };
   return (
-    <article className="mx-auto max-w-[720px] px-5 py-14">
+    <article className="article-frame mx-auto max-w-[720px] px-5 py-14">
       <div className="mt-8 eyebrow">{post.category || "Uncategorized"}</div>
       <h1 className="mt-3 font-display text-[clamp(2rem,5vw,3.2rem)] font-bold leading-[1.08] tracking-[-0.03em] text-foreground">
         {post.title || "Untitled"}

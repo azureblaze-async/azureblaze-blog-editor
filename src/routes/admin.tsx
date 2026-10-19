@@ -35,7 +35,7 @@ function AdminLayout() {
   const nav = "flex items-center gap-2.5 border-l-2 border-transparent px-5 py-2 text-xs text-muted-foreground transition-colors hover:text-foreground";
   const active = "!border-primary bg-azure-dim !text-primary";
   return (
-    <div className="min-h-screen md:pl-60">
+    <div className="studio min-h-screen md:pl-60">
       <aside className="z-30 flex flex-col border-b border-border bg-surface md:fixed md:inset-y-0 md:left-0 md:w-60 md:border-b-0 md:border-r">
         <Link to="/admin" className="flex items-center gap-2.5 px-5 py-5">
           <LogoMark />

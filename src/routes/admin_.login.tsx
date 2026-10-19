@@ -52,7 +52,7 @@ function LoginPage() {
 
   const field = "w-full rounded-md border border-input bg-surface-2 px-3 py-2.5 text-sm text-foreground outline-none focus:border-azure-border";
   return (
-    <div className="flex min-h-screen items-center justify-center px-4 hero-glow">
+    <div className="studio flex min-h-screen items-center justify-center px-4 hero-glow">
       <form onSubmit={submit} className="w-full max-w-sm rounded-lg border border-border bg-surface p-7">
         <div className="flex items-center gap-2.5">
           <LogoMark />
