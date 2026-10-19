@@ -1,9 +1,8 @@
-import blazeLogo from "@/assets/blaze-logo.png.asset.json";
-
+// Served from /public so it works on any host (Vercel can't serve Lovable CDN paths).
 export function LogoMark({ size = 28 }: { size?: number }) {
   return (
     <img
-      src={blazeLogo.url}
+      src="/blaze-logo.png"
       alt="AzureBlaze logo"
       width={size}
       height={size}
