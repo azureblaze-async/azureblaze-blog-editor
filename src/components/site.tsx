@@ -1,9 +1,15 @@
+import blazeLogo from "@/assets/blaze-logo.png.asset.json";
+
 export function LogoMark({ size = 28 }: { size?: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 32 32" aria-hidden="true" className="text-primary">
-      <path d="M16 3 L29 29 H22.5 L16 15.5 L9.5 29 H3 Z" fill="currentColor" />
-      <path d="M12 23 H20 L18.6 20.2 H13.4 Z" fill="var(--background)" />
-    </svg>
+    <img
+      src={blazeLogo.url}
+      alt="AzureBlaze logo"
+      width={size}
+      height={size}
+      className="shrink-0"
+      draggable={false}
+    />
   );
 }
 

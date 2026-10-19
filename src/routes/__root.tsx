@@ -10,6 +10,7 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
+import { LogoMark } from "@/components/site";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -18,7 +19,8 @@ function NotFoundComponent() {
   return (
     <div className="studio flex min-h-screen items-center justify-center px-4">
       <div className="max-w-md text-center">
-        <div className="eyebrow">Error 404</div>
+        <LogoMark size={44} />
+        <div className="eyebrow mt-4">Error 404</div>
         <h1 className="mt-3 font-display text-6xl font-bold text-foreground">Not found.</h1>
         <p className="mt-3 text-sm text-muted-foreground">This page doesn't exist, or it was never meant to be public.</p>
         <Link to="/" className="mt-6 inline-block rounded-md bg-primary px-4 py-2 text-xs font-medium text-primary-foreground">
@@ -38,7 +40,8 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
   return (
     <div className="studio flex min-h-screen items-center justify-center px-4">
       <div className="max-w-md text-center">
-        <h1 className="font-display text-xl font-semibold text-foreground">This page didn't load</h1>
+        <LogoMark size={44} />
+        <h1 className="mt-4 font-display text-xl font-semibold text-foreground">This page didn't load</h1>
         <p className="mt-2 text-sm text-muted-foreground">Something went wrong. Try again or head home.</p>
         <div className="mt-6 flex justify-center gap-2">
           <button
@@ -77,7 +80,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Instrument+Serif:ital@0;1&family=Orbitron:wght@400..800&family=Inter:wght@400..700&display=swap",
       },
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/favicon.png", type: "image/png" },
     ],
   }),
   shellComponent: RootShell,
