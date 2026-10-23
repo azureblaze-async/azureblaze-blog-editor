@@ -32,6 +32,9 @@ create table if not exists public.posts (
   published_at timestamptz,
   seo_title text,
   seo_description text,
+  og_title text,
+  og_description text,
+  tags text[] not null default '{}',
   social_image_path text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
@@ -45,6 +48,12 @@ create table if not exists public.posts (
   )
 );
 create index if not exists posts_public_idx on public.posts (status, published_at desc);
+
+-- Upgrade existing installations as well as fresh ones.
+alter table public.posts
+  add column if not exists og_title text,
+  add column if not exists og_description text,
+  add column if not exists tags text[] not null default '{}';
 
 grant select on public.posts to anon, authenticated;
 grant insert, update, delete on public.posts to authenticated;

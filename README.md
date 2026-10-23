@@ -11,7 +11,7 @@ same database — it lives in its own repository and is not part of this project
   body and a publish date are required) both in the UI and by a database constraint
 - Cover and inline image uploads to Cloudflare R2; existing Supabase Storage images remain supported
 - Slug generation with a uniqueness check before saving
-- Per-article SEO title and description
+- Separate per-article meta title/description, OG title/description and keywords/tags (see [database upgrade and website mapping](docs/ARTICLE-METADATA.md))
 - Dashboard with post counts, plus a posts list with status filters and search
 - Access control enforced by Postgres **row-level security**, not by the UI — a request that
   skips the screens is still rejected by the database

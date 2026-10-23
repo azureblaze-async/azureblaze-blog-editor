@@ -18,6 +18,9 @@ export interface Post {
   published_at: string | null;
   seo_title: string | null;
   seo_description: string | null;
+  og_title: string | null;
+  og_description: string | null;
+  tags: string[];
   social_image_path: string | null;
   created_at: string;
   updated_at: string;
@@ -35,6 +38,9 @@ export const emptyPost: PostInput = {
   cover_image_alt: "",
   seo_title: "",
   seo_description: "",
+  og_title: "",
+  og_description: "",
+  tags: [],
   social_image_path: null,
 };
 
@@ -89,6 +95,7 @@ export function mediaUrl(path: string | null | undefined): string | null {
 }
 
 function friendly(error: { code?: string; message: string }): Error {
+  if (error.code === "PGRST204" && /og_title|og_description|tags/.test(error.message)) return new Error("The article metadata database upgrade is missing. Run database/article-metadata.sql in your project's SQL Editor, then save again.");
   if (error.code === "23505") return new Error("That slug is already used by another article.");
   if (error.code === "42501") return new Error("You are not authorized to do that.");
   return new Error(error.message);
@@ -97,7 +104,7 @@ function friendly(error: { code?: string; message: string }): Error {
 /* ---------- public queries ---------- */
 
 const PUBLIC_COLS =
-  "id,title,slug,excerpt,category,cover_image_path,cover_image_alt,published_at,content_markdown,seo_title,seo_description,social_image_path,status,created_at,updated_at";
+  "id,title,slug,excerpt,category,cover_image_path,cover_image_alt,published_at,content_markdown,seo_title,seo_description,og_title,og_description,tags,social_image_path,status,created_at,updated_at";
 
 export async function listPublishedPosts(): Promise<Post[]> {
   if (!supabase) return [];
@@ -178,7 +185,7 @@ export async function adminGetPost(id: string): Promise<Post | null> {
 
 /* ---------- mutations ---------- */
 
-function clean(p: PostInput) {
+export function cleanPostInput(p: PostInput) {
   const n = (v: string | null | undefined) => (v && v.trim() ? v.trim() : null);
   return {
     title: p.title.trim(),
@@ -190,6 +197,9 @@ function clean(p: PostInput) {
     cover_image_alt: n(p.cover_image_alt),
     seo_title: n(p.seo_title),
     seo_description: n(p.seo_description),
+    og_title: n(p.og_title),
+    og_description: n(p.og_description),
+    tags: [...new Set((p.tags ?? []).map((tag) => tag.trim()).filter(Boolean))],
     social_image_path: p.social_image_path,
   };
 }
@@ -199,7 +209,7 @@ export async function savePost(id: string | null, input: PostInput): Promise<Pos
   const sb = requireSupabase();
   const errs = validateForDraft(input);
   if (errs.length) throw new Error(errs.join(" "));
-  const row = clean(input);
+  const row = cleanPostInput(input);
   const res = id
     ? await sb.from("posts").update(row).eq("id", id).select("*").single()
     : await sb.from("posts").insert({ ...row, status: "draft" }).select("*").single();

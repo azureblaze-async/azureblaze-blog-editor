@@ -6,6 +6,7 @@ import {
   Bold, Code, Heading2, Heading3, ImageIcon, Italic, Link2, List, ListOrdered, Minus, Quote,
 } from "lucide-react";
 import { ArticleView } from "@/components/ArticleView";
+import { PostMetadataFields } from "@/components/PostMetadataFields";
 import { PageHeader, StatusBadge, btn, fieldCls, labelCls } from "@/components/admin-ui";
 import {
   emptyPost, mediaUrl, publishPost, savePost, setStatus, slugify, uploadImage, validateForPublish,
@@ -244,28 +245,13 @@ export function PostEditor({ post, initialPreview = false }: { post: Post | null
               <button className={`${btn.ghost} w-full justify-center`} onClick={() => coverFile.current?.click()} disabled={!!busy}>{busy === "cover" ? "Uploading…" : "Upload cover"}</button>
             )}
             <input ref={coverFile} type="file" accept="image/*" className="hidden" onChange={(e) => onCover(e.target.files?.[0])} />
-            {cover && (
-              <div>
-                <label className={labelCls}>Alt text</label>
-                <input className={fieldCls} value={form.cover_image_alt ?? ""} onChange={(e) => set("cover_image_alt", e.target.value)} />
-              </div>
-            )}
+            <div>
+              <label htmlFor="cover-alt" className={labelCls}>Cover alt text</label>
+              <textarea id="cover-alt" className={`${fieldCls} min-h-[100px] resize-y`} value={form.cover_image_alt ?? ""} onChange={(e) => set("cover_image_alt", e.target.value)} />
+            </div>
           </div>
 
-          <details className="rounded-lg border border-border bg-surface p-4">
-            <summary className={`${labelCls} mb-0 cursor-pointer`}>SEO & social</summary>
-            <div className="mt-3 space-y-3">
-              <div>
-                <label className={labelCls}>SEO title</label>
-                <input className={fieldCls} placeholder={form.title} value={form.seo_title ?? ""} onChange={(e) => set("seo_title", e.target.value)} />
-              </div>
-              <div>
-                <label className={labelCls}>SEO description</label>
-                <textarea className={`${fieldCls} min-h-[70px]`} placeholder={form.excerpt ?? ""} value={form.seo_description ?? ""} onChange={(e) => set("seo_description", e.target.value)} />
-              </div>
-              <p className="text-[10px] text-faint">Social image falls back to the cover image.</p>
-            </div>
-          </details>
+          <PostMetadataFields form={form} set={set} />
         </aside>
       </div>
     </>
